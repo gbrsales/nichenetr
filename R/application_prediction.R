@@ -865,7 +865,7 @@ nichenet_seuratobj_aggregate = function(receiver, seurat_obj, condition_colname,
 
   seurat_obj_receiver= subset(seurat_obj, idents = receiver)
   seurat_obj_receiver = SetIdent(seurat_obj_receiver, value = seurat_obj_receiver[[condition_colname]])
-  DE_table_receiver = FindMarkers(object = seurat_obj_receiver, ident.1 = condition_oi, ident.2 = condition_reference, min.pct = expression_pct) %>% rownames_to_column("gene")
+  DE_table_receiver = FindMarkers(object = seurat_obj_receiver, ident.1 = condition_oi, ident.2 = condition_reference, min.pct = expression_pct, recorrect_umi = FALSE) %>% rownames_to_column("gene")
 
   SeuratV4 = c("avg_log2FC") %in% colnames(DE_table_receiver)
 
@@ -1491,7 +1491,7 @@ nichenet_seuratobj_cluster_de = function(seurat_obj, receiver_affected, receiver
   # step2 nichenet analysis: define background and gene list of interest: here differential expression between two conditions of cell type of interest
   if (verbose == TRUE){print("Perform DE analysis between two receiver cell clusters")}
 
-  DE_table_receiver = FindMarkers(object = seurat_obj, ident.1 = receiver_affected, ident.2 = receiver_reference, min.pct = expression_pct) %>% rownames_to_column("gene")
+  DE_table_receiver = FindMarkers(object = seurat_obj, ident.1 = receiver_affected, ident.2 = receiver_reference, min.pct = expression_pct, recorrect_umi = FALSE) %>% rownames_to_column("gene")
 
   SeuratV4 = c("avg_log2FC") %in% colnames(DE_table_receiver)
 
@@ -1937,7 +1937,7 @@ nichenet_seuratobj_aggregate_cluster_de = function(seurat_obj, receiver_affected
 
   seurat_obj_receiver = merge(seurat_obj_receiver_affected, seurat_obj_receiver_reference)
 
-  DE_table_receiver = FindMarkers(object = seurat_obj_receiver, ident.1 = condition_oi, ident.2 = condition_reference, min.pct = expression_pct) %>% rownames_to_column("gene")
+  DE_table_receiver = FindMarkers(object = seurat_obj_receiver, ident.1 = condition_oi, ident.2 = condition_reference, min.pct = expression_pct, recorrect_umi = FALSE) %>% rownames_to_column("gene")
 
 
   SeuratV4 = c("avg_log2FC") %in% colnames(DE_table_receiver)
@@ -2205,7 +2205,7 @@ get_lfc_celltype = function(celltype_oi, seurat_obj, condition_colname, conditio
 
   }
   seuratObj_sender = SetIdent(seuratObj_sender, value = seuratObj_sender[[condition_colname]])
-  DE_table_sender = FindMarkers(object = seuratObj_sender, ident.1 = condition_oi, ident.2 = condition_reference, min.pct = expression_pct, logfc.threshold = 0.05) %>% rownames_to_column("gene")
+  DE_table_sender = FindMarkers(object = seuratObj_sender, ident.1 = condition_oi, ident.2 = condition_reference, min.pct = expression_pct, logfc.threshold = 0.05, recorrect_umi = FALSE) %>% rownames_to_column("gene")
 
   SeuratV4 = c("avg_log2FC") %in% colnames(DE_table_sender)
 
